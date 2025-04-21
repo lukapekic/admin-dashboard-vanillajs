@@ -1,0 +1,30 @@
+{
+  "name": "admin-dashboard-vanillajs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/main.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukapekic/admin-dashboard-vanillajs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lukapekic/admin-dashboard-vanillajs/issues"
+  },
+  "homepage": "https://github.com/lukapekic/admin-dashboard-vanillajs#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.4",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.1.4"
+  },
+  "dependencies": {
+    "serve": "^14.2.4"
+  }
+}
