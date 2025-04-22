@@ -1,9 +1,15 @@
 export const usersStore = {
+  initialUsers: [],
   users: [],
   subscribers: [],
 
-  setUsers(newUsers) {
-    this.users = newUsers;
+  setInitialUsers(users) {
+    this.initialUsers = users;
+  },
+
+  setUsers(setUsersFunction) {
+    const modifiedUsers = setUsersFunction(this.users, this.initialUsers);
+    this.users = modifiedUsers;
     this.notify();
   },
 
