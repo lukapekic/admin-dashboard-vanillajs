@@ -1,18 +1,16 @@
+import { Users } from "./views/users.js";
+
 export const routes = [
   {
     id: "home",
     path: "/",
-    view: () => {
-      return "<div>Users</div>";
-    },
+    view: Users,
   },
   {
     id: "users",
     path: "/users",
     display: "User Management",
-    view: () => {
-      return "<div>Users</div>";
-    },
+    view: Users,
   },
   {
     id: "analytics",
