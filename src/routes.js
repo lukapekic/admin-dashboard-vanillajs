@@ -1,4 +1,4 @@
-import { Users } from "./views/users.js";
+import { Users } from "./views/index.js";
 
 export const routes = [
   {

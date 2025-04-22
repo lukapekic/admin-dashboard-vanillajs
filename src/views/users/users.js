@@ -1,10 +1,12 @@
-import { fetchGetUsers } from "../api/users.js";
-import { Table } from "../components/table.js";
-import { usersStore } from "../store/users.js";
+import { fetchGetUsers } from "../../api/users.js";
+import { Table } from "../../components/table.js";
+import { usersStore } from "../../store/users.js";
+import { UsersTableSearch } from "./users-table-search.js";
 
 const getUsersProps = {
   onSuccess: (users) => {
-    usersStore.setUsers(users);
+    usersStore.setUsers(() => users);
+    usersStore.setInitialUsers(users);
     renderUsersTable(users);
   },
   onError: () => renderErrorFallbackUsersView(),
@@ -15,10 +17,26 @@ export const Users = () => {
   fetchGetUsers(getUsersProps);
   usersStore.subscribe(renderUsersTable);
 
+  const handleSearchChange = (value) => {
+    if (value === "")
+      return usersStore.setUsers((_, initialUsers) => initialUsers);
+
+    usersStore.setUsers((previousValue) => {
+      return previousValue.filter((user) =>
+        user.name.toLowerCase().includes(value.toLowerCase())
+      );
+    });
+  };
+
   return `
     <div id="users-view-wrapper" class="flex flex-col flex-1">
         <h2 class="mb-10">User Managment</h2>
-        <div id="users-table" class="flex-1">Loading...</div>
+        <div id="users-table-wrapper">
+          <div>${UsersTableSearch({
+            onChange: handleSearchChange,
+          })}</div>
+          <div id="users-table" class="flex-1">Loading...</div>
+        </div>
     </div>
     `;
 };
@@ -37,9 +55,16 @@ const renderUsersTable = (users) => {
     }
   });
 
-  const usersToRender = users.filter((user) => user.active);
+  const render = () => {
+    const usersTable = generateUsersTable(users.filter((user) => user.active));
+    tableContainer.innerHTML = usersTable;
+  };
 
-  const usersTable = Table({
+  render();
+};
+
+const generateUsersTable = (users) => {
+  return Table({
     columns: [
       {
         name: "Name",
@@ -59,10 +84,8 @@ const renderUsersTable = (users) => {
           `<button data-user="${row.id}" class='border border-black cursor-pointer p-2 rounded-sm'>Deactivate</button>`,
       },
     ],
-    data: usersToRender,
+    data: users,
   });
-
-  tableContainer.innerHTML = usersTable;
 };
 
 const renderErrorFallbackUsersView = () => {
