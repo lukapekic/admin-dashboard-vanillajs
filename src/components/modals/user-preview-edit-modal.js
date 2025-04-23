@@ -114,13 +114,31 @@ export const UserPreviewEditModal = ({ user, onSubmit, onClose }) => {
   `;
   };
 
-  onViewMounted("user-edit-form-wrapper", () => renderForm(formState));
+  onViewMounted("user-edit-form-wrapper", () => {
+    renderForm(formState);
+
+    document
+      .querySelectorAll("button[id*='close-modal-button']")
+      .forEach((node) => node.addEventListener("click", onClose));
+
+    const handleClickOutisde = (event) => {
+      const modal = document.getElementById("user-modal-wrapper");
+      const isClickInside = modal?.contains(event.target);
+
+      if (!isClickInside) {
+        onClose();
+        document.removeEventListener("click", handleClickOutisde);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutisde);
+  });
 
   return `
-    <div class="bg-white">
+    <div id="user-modal-wrapper" class="bg-white">
         <div class="flex justify-between items-center p-6">
             <h2 class="text-black text-2xl font-semibold mb-8">Preview / Edit user</h2>
-            <button>X</button>
+            <button id="close-modal-button-X" class="cursor-pointer">X</button>
         </div>
         <div id="user-edit-form-wrapper"></div>
     </div>

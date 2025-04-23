@@ -1,4 +1,4 @@
-import { Users } from "./views/index.js";
+import { Users, Analytics } from "./views/index.js";
 
 export const routes = [
   {
@@ -16,9 +16,7 @@ export const routes = [
     id: "analytics",
     path: "/analytics",
     display: "Analytics",
-    view: () => {
-      return "<div>Charts</div>";
-    },
+    view: Analytics,
   },
 ];
 
