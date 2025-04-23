@@ -1,4 +1,5 @@
 import { debounce } from "./helpers.js";
+import { onViewMounted } from "./render.js";
 
 export const handleFormState = ({
   formId,
@@ -25,43 +26,35 @@ export const handleFormState = ({
     }, 500)
   );
 
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach(() => {
-      const form = document.getElementById(formId);
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
 
-      if (form) {
-        form.addEventListener("submit", (event) => {
-          event.preventDefault();
+    if (
+      formState.validationRules &&
+      Object.keys(formState.validationRules) !== 0
+    ) {
+      for (const [key, validation] of Object.entries(
+        formState.validationRules
+      )) {
+        const currentValue = formState.values[key];
+        const result = validation.regex.test(currentValue);
 
-          if (
-            formState.validationRules &&
-            Object.keys(formState.validationRules) !== 0
-          ) {
-            for (const [key, validation] of Object.entries(
-              formState.validationRules
-            )) {
-              const currentValue = formState.values[key];
-              const result = validation.regex.test(currentValue);
-
-              if (!result) {
-                formState.errors[key] = validation.message;
-              }
-            }
-          }
-
-          if (formState.errors) {
-            return onValidationFail(formState);
-          }
-
-          onSubmit(formState.values);
-        });
-
-        observer.disconnect();
+        if (!result) {
+          formState.errors[key] = validation.message;
+        }
       }
-    });
-  });
+    }
 
-  observer.observe(document.body, { childList: true, subtree: true });
+    if (formState.errors) {
+      return onValidationFail(formState);
+    }
+
+    onSubmit(formState.values);
+  };
+
+  onViewMounted(formId, (view) =>
+    view.addEventListener("submit", handleFormSubmit)
+  );
 
   return formState;
 };

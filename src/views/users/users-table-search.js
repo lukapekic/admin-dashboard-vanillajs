@@ -1,4 +1,5 @@
 import { debounce } from "../../utils/helpers.js";
+import { onViewMounted } from "../../utils/render.js";
 
 let searchTerm = "";
 
@@ -10,24 +11,9 @@ export const UsersTableSearch = ({ onChange }) => {
     onChange?.(value);
   };
 
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach(() => {
-      const searchUsersInput = document.getElementById(
-        "users-table-search-input"
-      );
-
-      if (searchUsersInput) {
-        searchUsersInput.addEventListener(
-          "input",
-          debounce(handleSearchChange, 300)
-        );
-
-        observer.disconnect();
-      }
-    });
-  });
-
-  observer.observe(document.body, { childList: true, subtree: true });
+  onViewMounted("users-table-search-input", (view) =>
+    view.addEventListener("input", debounce(handleSearchChange, 300))
+  );
 
   return `
     <input

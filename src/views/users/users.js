@@ -46,6 +46,8 @@ export const Users = () => {
 const renderUsersTable = (users) => {
   const tableContainer = document.getElementById("users-table");
 
+  const { openModal, closeModal } = handleModalState();
+
   const handleDeactivateUser = (userId) => {
     usersStore.deactivateUser(userId);
   };
@@ -54,6 +56,18 @@ const renderUsersTable = (users) => {
     if (event.target.matches("button[data-user]")) {
       const userId = event.target.getAttribute("data-user");
       handleDeactivateUser(userId);
+    }
+
+    if (event.target.matches("div[data-user]")) {
+      const userId = event.target.getAttribute("data-user");
+      const user = usersStore.getUser(userId);
+
+      openModal({
+        content: UserPreviewEditModal({
+          user,
+          onClose: closeModal,
+        }),
+      });
     }
   });
 
@@ -70,7 +84,9 @@ const generateUsersTable = (users) => {
     columns: [
       {
         name: "Name",
-        render: (row) => row.name,
+        render: (row) => `<div data-user="${row.id}">
+          ${row.name}
+        </div>`,
       },
       {
         name: "Email",
@@ -102,16 +118,3 @@ const renderErrorFallbackUsersView = () => {
     fetchGetUsers(getUsersProps)
   );
 };
-
-// const { openModal } = handleModalState();
-
-// const user = usersStore.getUser(userId);
-
-// openModal({
-//   content: UserPreviewEditModal({
-//     user,
-//     onClose: () => {
-//       /** */
-//     },
-//   }),
-// });
