@@ -1,4 +1,4 @@
-import { onViewMounted } from "../utils/render";
+import { onViewMounted } from "../utils/render.js";
 
 export const Header = ({ loggedInUser, onLogout }) => {
   onViewMounted("header-logout-button", (view) =>
