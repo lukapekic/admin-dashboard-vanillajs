@@ -21,7 +21,7 @@ export const Navigation = () => {
 
   return `
     <nav class="mt-16">
-        <ul class="list-none flex flex-col">
+        <ul class="list-none flex flex-col gap-3">
             ${routesList}
         </ul>
     </nav>

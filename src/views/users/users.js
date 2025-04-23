@@ -4,6 +4,7 @@ import { UserPreviewEditModal } from "../../components/modals/user-preview-edit-
 import { handleModalState } from "../../utils/modal.js";
 import { usersStore } from "../../store/users.js";
 import { UsersTableSearch } from "./users-table-search.js";
+import { onViewMounted } from "../../utils/render.js";
 
 const getUsersProps = {
   onSuccess: (users) => {
@@ -16,8 +17,14 @@ const getUsersProps = {
 };
 
 export const Users = () => {
-  fetchGetUsers(getUsersProps);
+  const users = usersStore.users;
   usersStore.subscribe(renderUsersTable);
+
+  if (users.length === 0) {
+    fetchGetUsers(getUsersProps);
+  } else {
+    onViewMounted("users-table", () => renderUsersTable(users));
+  }
 
   const handleSearchChange = (value) => {
     if (value === "")
@@ -84,7 +91,9 @@ const generateUsersTable = (users) => {
     columns: [
       {
         name: "Name",
-        render: (row) => `<div data-user="${row.id}">
+        render: (
+          row
+        ) => `<div data-user="${row.id}" class="cursor-pointer bg-gray-200">
           ${row.name}
         </div>`,
       },
