@@ -14,7 +14,10 @@ export const usersStore = {
   },
 
   getUser(userId) {
-    return this.users.find((user) => user.id === userId) ?? null;
+    return (
+      this.users.find((user) => user.id.toString() === userId.toString()) ??
+      null
+    );
   },
 
   updateUser(userId, userData) {

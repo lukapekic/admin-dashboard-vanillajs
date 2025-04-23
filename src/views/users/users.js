@@ -1,5 +1,7 @@
 import { fetchGetUsers } from "../../api/users.js";
 import { Table } from "../../components/table.js";
+import { UserPreviewEditModal } from "../../components/modals/user-preview-edit-modal.js";
+import { handleModalState } from "../../utils/modal.js";
 import { usersStore } from "../../store/users.js";
 import { UsersTableSearch } from "./users-table-search.js";
 
@@ -48,10 +50,17 @@ const renderUsersTable = (users) => {
     usersStore.deactivateUser(userId);
   };
 
+  const { openModal } = handleModalState();
+
   document.addEventListener("click", (event) => {
     if (event.target.matches("button[data-user]")) {
       const userId = event.target.getAttribute("data-user");
-      handleDeactivateUser(userId);
+      //  handleDeactivateUser(userId);
+
+      const user = usersStore.getUser(userId);
+      console.log(user);
+
+      openModal({ content: UserPreviewEditModal({ user }) });
     }
   });
 
