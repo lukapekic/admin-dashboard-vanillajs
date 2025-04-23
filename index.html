@@ -13,7 +13,18 @@
 </head>
 <body>
     <main id="app" class="flex h-screen"></main>
-    <div id="modal"></div> 
+
+    <div id="modal" class="relative z-10 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div id="modal-backdrop" class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div id="modal-content" class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all max-w-4xl">
+              <!-- Content -->
+            </div>
+          </div>
+        </div>
+      </div>
+
     <script type="module" src="src/main.js"></script>
 </body>
 </html>

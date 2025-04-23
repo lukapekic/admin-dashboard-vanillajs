@@ -1,6 +1,9 @@
+import { onViewMounted } from "../utils/render";
+
 export const Header = ({ loggedInUser, onLogout }) => {
-  // const logoutButton = document.getElementById("header-logout-button");
-  // logoutButton.addEventListener("click", onLogout);
+  onViewMounted("header-logout-button", (view) =>
+    view.addEventListener("click", onLogout)
+  );
 
   return `
     <header id="header" class="flex justify-end items-center gap-3">
