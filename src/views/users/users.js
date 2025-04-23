@@ -50,17 +50,10 @@ const renderUsersTable = (users) => {
     usersStore.deactivateUser(userId);
   };
 
-  const { openModal } = handleModalState();
-
   document.addEventListener("click", (event) => {
     if (event.target.matches("button[data-user]")) {
       const userId = event.target.getAttribute("data-user");
-      //  handleDeactivateUser(userId);
-
-      const user = usersStore.getUser(userId);
-      console.log(user);
-
-      openModal({ content: UserPreviewEditModal({ user }) });
+      handleDeactivateUser(userId);
     }
   });
 
@@ -109,3 +102,16 @@ const renderErrorFallbackUsersView = () => {
     fetchGetUsers(getUsersProps)
   );
 };
+
+// const { openModal } = handleModalState();
+
+// const user = usersStore.getUser(userId);
+
+// openModal({
+//   content: UserPreviewEditModal({
+//     user,
+//     onClose: () => {
+//       /** */
+//     },
+//   }),
+// });
