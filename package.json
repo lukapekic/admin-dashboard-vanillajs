@@ -25,6 +25,7 @@
     "tailwindcss": "^4.1.4"
   },
   "dependencies": {
+    "chart.js": "^4.4.9",
     "serve": "^14.2.4"
   }
 }
